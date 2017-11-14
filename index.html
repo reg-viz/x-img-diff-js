@@ -2,100 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>x-img-diff sample</title>
+  <title>x-img-diff-js demonstration</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-<h1>x-img-diff-js demo(experimental)</h1>
-See developer tool's console...
-<div>
-img1:
-  <canvas id="img1"></canvas>
-</div>
-<div>
-img2:
-  <canvas id="img2"></canvas>
-</div>
+<body class="loading">
+  <main>
+    <h1>x-img-diff-js demonstration</h1>
+    <div class="input">
+      <div>
+        <header>
+          <h3>Image 1 (Drag &amp; drop your image file here)</h3>
+        </header>
+        <canvas id="img1"></canvas>
+      </div>
+      <div>
+        <header>
+          <h3>Image 2 (Drag &amp; drop your image file here)</h3>
+        </header>
+        <canvas id="img2"></canvas>
+      </div>
+    </div>
+    <div id="btn">
+      <span class="message">Match</span>
+      <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
+    </div>
+    <div class="output hide">
+      <div>
+        <canvas id="output"></canvas>
+      </div>
+    </div>
+  </main>
 
-<script>
-var Module = {
-   locateFile(baseName) {
-    return `build/${baseName}`;
-  },
-  print(msg) {
-    console.log(msg);
-  },
-  onInit(cb) {
-    this._initCb = cb;
-  },
-  onRuntimeInitialized() {
-    if (this._initCb) {
-      return this._initCb(this);
-    }
-  }
-};
-</script>
+  <div class="spin-wrap">
+    <span class="spin-message">Loading modules...</span>
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
 
-<script>
-
-function getInput(canvasId) {
-  var canvas = document.querySelector('#' + canvasId);
-  var ctx = canvas.getContext('2d');
-  var { width, height, data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  return { width, height, data };
-}
-
-function loadImage(path, canvasId) {
-  const img = new Image();
-  return new Promise(resolve => {
-    img.onload = () => {
-      const canvas = document.querySelector('#' + canvasId);
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      resolve();
-    };
-    img.src = path
-  });
-}
-
-function main() {
-  Promise.all([
-    loadImage('test/img/actual.png', 'img1'),
-    loadImage('test/img/expected.png', 'img2'),
-  ]).then(() => {
-    const imgArray1 = getInput('img1');
-    const imgArray2 = getInput('img2');
-    const img1Raw = cv.matFromArray(imgArray1, 24), img1 = new cv.Mat();
-    const img2Raw = cv.matFromArray(imgArray2, 24), img2 = new cv.Mat();
-    cv.cvtColor(img1Raw, img1, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
-    cv.cvtColor(img2Raw, img2, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
-    const config = new cv.DiffConfig();
-    config._debug = true;
-    const r = new cv.DiffResult();
-    cv.detectDiff(img1, img2, r, config);
-    console.log(r.matches);
-  });
-}
-
-
-// function getKps() {
-//   loadImage('test/img/actual.png', 'img1')
-//   .then(() => getInput('img1'))
-//   .then(imgArray1  => {
-// 
-//     const img1Raw = cv.matFromArray(imgArray1, 24), img1 = new cv.Mat();
-//     cv.cvtColor(img1Raw, img1, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
-// 
-//     const mask = new cv.Mat(), kp1 = new cv.KeyPointVector(), des1 = new cv.Mat(), kp2 = new cv.KeyPointVector(), des2 = new cv.Mat();
-//     const akaze = new cv.AKAZE(5, 0, 3, 0.001, 4, 4, 1);
-//     akaze.detectAndCompute(img1Raw, mask, kp1, des1, false);
-//     console.log(kp1.size());
-//   });
-// }
-
-Module.onInit(() => main());
-</script>
-<script async src="build/cv-wasm.js"></script>
+  <footer>
+    <address>&copy; reg-viz 2017-</address> <br />
+    <a href="https://github.com/reg-viz/x-img-diff-js" target="_blank">reg-viz/x-img-diff-js</a>
+  </footer>
+  <script src="main.js"></script>
 </body>
 </html>
