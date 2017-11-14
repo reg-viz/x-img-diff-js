@@ -1,0 +1,14 @@
+{
+  "name": "x-img-diff-js",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "start": "http-server -p 8000",
+    "deploy": "deploy.sh"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.10.0",
+    "gh-pages": "^1.0.0"
+  }
+}

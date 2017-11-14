@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+    emcc:
+        build: "."
+        volumes:
+            - ".:/var/repository"
+        working_dir: "/var/repository"
+        command: python make.py --wasm
