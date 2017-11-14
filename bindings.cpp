@@ -194,10 +194,6 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .property("strayingRects2", &ph::DiffResult::strayingRects2)
         ;
 
-    // void Canny_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, double arg4, int arg5, bool arg6) {
-    //     return cv::Canny(arg1, arg2, arg3, arg4, arg5, arg6);
-    // }
-
     function("detectDiff", select_overload<void(const cv::Mat&, const cv::Mat&, ph::DiffResult&, const ph::DiffConfig&)>(&ph::detectDiff));
 
     emscripten::class_<cv::TermCriteria>("TermCriteria")

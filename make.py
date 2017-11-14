@@ -33,13 +33,11 @@ import tools.shared as emscripten
           Settings.CORRECT_ROUNDINGS = 0
 '''
 
-#TODO No Filesystem
-#emcc_args = sys.argv[1:] or '-O3 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIOSN=1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM#=1 -s NO_BROWSER=1'.split(' ')
+# For Debug
+#emcc_args = '-O0 -g0 --closure 0 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIONS=0 -s AGGRESSIVE_VARIABLE_ELIMINATION=0 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0'.split(' ')
 
-# TODO: -msse2, SIMD.js is complaint with SSE2
-
-emcc_args = '-O3 --llvm-lto 1 -s ASSERTIONS=0 -s AGGRESSIVE_VARIABLE_ELIMINATION=0 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0'.split(' ')
-
+# For Release
+emcc_args = '-O3 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIONS=0 -s AGGRESSIVE_VARIABLE_ELIMINATION=0 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0'.split(' ')
 
 print
 print '--------------------------------------------------'
@@ -180,6 +178,7 @@ try:
              os.path.join('..', 'modules', 'calib3d', 'include'),
              os.path.join('..', 'modules', 'features2d', 'include'),
              os.path.join('..', 'modules', 'video', 'include'),
+             os.path.join('..', 'modules', 'videio', 'include'),
              os.path.join('..', 'modules', 'objdetect', 'include'),
              os.path.join('..', 'modules', 'imgcodecs', 'include'),
              os.path.join('..', 'modules', 'hal', 'include'),
@@ -266,10 +265,6 @@ try:
     return cv(Module);
 }));
 """ % (out,)).lstrip())
-
-    for f in destFiles:
-        if os.path.exists(f):
-            shutil.copy2(f, tests)
 
 finally:
     os.chdir(this_dir)

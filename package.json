@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "start": "http-server -p 8000",
-    "deploy": "tools/deploy.sh"
+    "build": "docker-compose run --rm emcc",
+    "build:demo": "cp -rf build demo",
+    "start": "cd demo; http-server -p 8000",
+    "deploy": "npm run build:demo && gh-pages -d demo"
   },
   "license": "MIT",
   "devDependencies": {
