@@ -103,8 +103,8 @@ function startCalc() {
 const worker = new Worker('worker.js');
 
 Promise.all([
-  loadImage('test/img/actual.png', 'img1'),
-  loadImage('test/img/expected.png', 'img2'),
+  loadImage('img/actual.png', 'img1'),
+  loadImage('img/expected.png', 'img2'),
 ]).then(() => {
   worker.addEventListener('message', (ev) => {
     const meta = ev.data;
