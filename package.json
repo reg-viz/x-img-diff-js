@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "http-server -p 8000",
-    "deploy": "deploy.sh"
+    "deploy": "tools/deploy.sh"
   },
   "license": "MIT",
   "devDependencies": {

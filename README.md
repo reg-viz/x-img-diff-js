@@ -1,6 +1,10 @@
 # x-img-diff-js
+Image comparison module(Highly experimental).
 
-## How to Build
+## Demonstration
+See https://reg-viz.github.io/x-img-diff-js/
+
+## How to build module
 
 1. Clone this repo and change the current directory to it.
 
@@ -26,7 +30,7 @@ $ docker-compose build
 $ docker-compose run emcc
 ```
 
-## Run demo
+## Run module in your local machine
 
 ```
 python -mhttp.server
