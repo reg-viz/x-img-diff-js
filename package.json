@@ -10,6 +10,16 @@
     "start": "cd demo; http-server -p 8000",
     "deploy": "npm run build:demo && gh-pages -d demo"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reg-viz/x-img-diff-js.git"
+  },
+  "author": "Quramy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reg-viz/x-img-diff-js/issues"
+  },
+  "homepage": "https://github.com/reg-viz/x-img-diff-js#readme",,
   "license": "MIT",
   "devDependencies": {
     "gh-pages": "^1.0.0",
