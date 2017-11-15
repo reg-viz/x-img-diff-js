@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/reg-viz/x-img-diff-js/issues"
   },
-  "homepage": "https://github.com/reg-viz/x-img-diff-js#readme",,
+  "homepage": "https://github.com/reg-viz/x-img-diff-js#readme",
   "license": "MIT",
   "devDependencies": {
     "gh-pages": "^1.0.0",
