@@ -189,7 +189,7 @@ try:
     emcc_binding_args = ['--bind']
     emcc_binding_args += include_dir_args
 
-    emscripten.Building.emcc('../../bindings.cpp', emcc_binding_args, 'bindings.bc')
+    emscripten.Building.emcc('../../src/bindings.cpp', emcc_binding_args, 'bindings.bc')
     emscripten.Building.emcc('../../x-img-diff/src/rectutil.cpp', emcc_binding_args, 'rectutil.bc')
     emscripten.Building.emcc('../../x-img-diff/src/hunter.cpp', emcc_binding_args, 'hunter.bc')
     assert os.path.exists('bindings.bc')
