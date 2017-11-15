@@ -1,16 +1,19 @@
 {
   "name": "x-img-diff-js",
   "version": "0.0.1",
-  "description": "",
+  "main": "src/index.js",
+  "description": "compare 2 images considering into translation",
   "scripts": {
     "build": "docker-compose run --rm emcc",
+    "test": "node test/test_node.js",
     "build:demo": "cp -rf build demo",
     "start": "cd demo; http-server -p 8000",
     "deploy": "npm run build:demo && gh-pages -d demo"
   },
   "license": "MIT",
   "devDependencies": {
+    "gh-pages": "^1.0.0",
     "http-server": "^0.10.0",
-    "gh-pages": "^1.0.0"
+    "pngjs": "^3.3.0"
   }
 }

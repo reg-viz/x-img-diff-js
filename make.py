@@ -189,12 +189,12 @@ try:
     emcc_binding_args = ['--bind']
     emcc_binding_args += include_dir_args
 
-    emscripten.Building.emcc('../../src/bindings.cpp', emcc_binding_args, 'bindings.bc')
+    emscripten.Building.emcc('../../bindings/bindings.cpp', emcc_binding_args, 'bindings.bc')
     emscripten.Building.emcc('../../x-img-diff/src/rectutil.cpp', emcc_binding_args, 'rectutil.bc')
     emscripten.Building.emcc('../../x-img-diff/src/hunter.cpp', emcc_binding_args, 'hunter.bc')
     assert os.path.exists('bindings.bc')
 
-    stage('Building OpenCV.js')
+    stage('Building for Browser module')
 
     if clArguments.wasm:
         emcc_args += "-s WASM=1".split( " " )
@@ -202,10 +202,8 @@ try:
     else:
         basename = "cv"
 
-    destFiles = [ os.path.join('..', '..', 'build', basename + ext ) for ext in [ ".js", ".data", ".wasm" ] ]
-    opencv = destFiles[0]
-
-    tests = os.path.join('..', '..', 'test')
+    destBrowser = os.path.join('..', '..', 'build', basename + '_browser.js')
+    destNode = os.path.join('..', '..', 'build', basename + '_node.js')
 
     input_files = [
                 'bindings.bc',
@@ -232,39 +230,18 @@ try:
                 #os.path.join('3rdparty', 'lib', 'liblibwebp.a'),
                 ]
 
-    emscripten.Building.link(input_files, 'libOpenCV.bc')
+    emscripten.Building.link(input_files, 'ximgdiff.bc')
     #emcc_args += '--preload-file ../../test/data/'.split(' ') #For testing purposes
     emcc_args += ['--bind']
     #emcc_args += ['--memoryprofiler']
     #emcc_args += ['--tracing']      #   ability to use custom memory profiler, with hooks Module.onMalloc(), .onFree() and .onRealloc()
 
-    emscripten.Building.emcc('libOpenCV.bc', emcc_args, opencv)
-    stage('Wrapping')
-    with open(opencv, 'r+b') as file:
-        out = file.read()
-        file.seek(0)
-        # inspired by https://github.com/umdjs/umd/blob/95563fd6b46f06bda0af143ff67292e7f6ede6b7/templates/returnExportsGlobal.js
-        file.write(("""
-(function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(function () {
-            return (root.cv = factory());
-        });
-    } else if (typeof module === 'object' && module.exports) {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like environments that support module.exports,
-        // like Node.
-        module.exports = factory();
-    } else {
-        // Browser globals
-        root.cv = factory();
-    }
-}(this, function () {
-    %s
-    return cv(Module);
-}));
-""" % (out,)).lstrip())
+    emscripten.Building.emcc('ximgdiff.bc', emcc_args, destBrowser)
+
+    stage('Building for Node.js module')
+    emcc_node_args = emcc_args
+    emcc_node_args += '--pre-js ../../bindings/pre_node.js'.split(' ')
+    emscripten.Building.emcc('ximgdiff.bc', emcc_node_args, destNode)
 
 finally:
     os.chdir(this_dir)
