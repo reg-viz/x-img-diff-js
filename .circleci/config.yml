@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  emcc:
+  build:
     docker:
       - image: quramy/opencvjs-emcc:sdk-tag-1.37.21-64bit
 
@@ -33,7 +33,7 @@ jobs:
             - cv-wasm_node.js                   
             - cv-wasm_node.wasm                 
 
-  build:
+  test:
     docker:
       - image: node:8
 
@@ -45,3 +45,9 @@ jobs:
       - run: ls -la build
           
 
+ workflows:
+   version: 2
+   build_pipeline:
+     jobs:
+       - build
+       - test
