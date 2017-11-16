@@ -1,4 +1,4 @@
-const version = 10001;
+const version = 10002;
 
 class ModuleClass {
 
@@ -7,7 +7,7 @@ class ModuleClass {
   }
 
   instantiateWasm(imports, callback) {
-    instantiateCachedURL(version, this.locateFile('cv-wasm.wasm'), imports)
+    instantiateCachedURL(version, this.locateFile('cv-wasm_browser.wasm'), imports)
       .then(instance => callback(instance));
     return { };
   }

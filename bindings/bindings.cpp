@@ -194,7 +194,7 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .property("strayingRects2", &ph::DiffResult::strayingRects2)
         ;
 
-    function("detectDiff", select_overload<void(const cv::Mat&, const cv::Mat&, ph::DiffResult&, const ph::DiffConfig&)>(&ph::detectDiff));
+    function("_detectDiff", select_overload<void(const cv::Mat&, const cv::Mat&, ph::DiffResult&, const ph::DiffConfig&)>(&ph::detectDiff));
 
     emscripten::class_<cv::TermCriteria>("TermCriteria")
         .constructor<>()

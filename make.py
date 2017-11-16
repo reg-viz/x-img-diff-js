@@ -232,7 +232,7 @@ try:
 
     emscripten.Building.link(input_files, 'ximgdiff.bc')
     #emcc_args += '--preload-file ../../test/data/'.split(' ') #For testing purposes
-    emcc_args += ['--bind']
+    emcc_args += ['--bind', '--post-js', '../../bindings/post.js']
     #emcc_args += ['--memoryprofiler']
     #emcc_args += ['--tracing']      #   ability to use custom memory profiler, with hooks Module.onMalloc(), .onFree() and .onRealloc()
 
