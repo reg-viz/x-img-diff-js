@@ -49,4 +49,6 @@ workflows:
   build_pipeline:
     jobs:
       - build
-      - test
+      - test:
+        requires:
+          - build
