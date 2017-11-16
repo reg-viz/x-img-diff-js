@@ -1,0 +1,47 @@
+version: 2
+jobs:
+  emcc:
+    docker:
+      - image: quramy/opencvjs-emcc:sdk-tag-1.37.21-64bit
+
+    working_directory: ~/repo
+
+    steps:
+
+      - checkout
+
+      - run:
+          name: get submodules
+          command: |
+            git clone --depth=1 -b 3.2.0 https://github.com/opencv/opencv.git
+            git clone --depth=1 https://github.com/Quramy/x-img-diff
+
+      - run:
+          name: build modules
+          command: |
+            python make.py --wasm
+
+      - store_artifacts:
+          path: build
+          destination: wasm
+
+      - persist_to_workspace:
+          root: build
+          paths:
+            - cv-wasm_browser.js                
+            - cv-wasm_browser.wasm              
+            - cv-wasm_node.js                   
+            - cv-wasm_node.wasm                 
+
+  build:
+    docker:
+      - image: node:8
+
+    working_directory: ~/repo
+
+    steps:
+      - attach_workspace:
+          at: ~/repo/build
+      - run: ls -la build
+          
+
