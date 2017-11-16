@@ -7,24 +7,19 @@ jobs:
     working_directory: ~/repo
 
     steps:
-
       - checkout
-
       - run:
           name: get submodules
           command: |
             git clone --depth=1 -b 3.2.0 https://github.com/opencv/opencv.git
             git clone --depth=1 https://github.com/Quramy/x-img-diff
-
       - run:
           name: build modules
           command: |
             python make.py --wasm
-
       - store_artifacts:
           path: build
           destination: wasm
-
       - persist_to_workspace:
           root: build
           paths:
@@ -40,9 +35,32 @@ jobs:
     working_directory: ~/repo
 
     steps:
+      - checkout
       - attach_workspace:
           at: ~/repo/build
       - run: ls -la build
+      - run: npm test
+
+  deploy:
+    docker:
+      - image: node:8
+
+    steps:
+      - run:
+          name: Setup git
+          command: |
+            git config --global user.email "yosuke.kurami@gmail.com"
+            git config --global user.name "Quramy"
+      - run:
+          name: Login npm
+          command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
+      - run:
+          name: Publish
+          command: |
+            npm run deploy
+            npm publish
+
 
 workflows:
   version: 2
@@ -52,3 +70,13 @@ workflows:
       - test:
         requires:
           - build
+      - confirm_patch:
+          type: approval
+          filters:
+            branches:
+              only: master
+          requires:
+            - test
+      - deploy:
+        requires:
+          - confirm_patch;
