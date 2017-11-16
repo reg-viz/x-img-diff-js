@@ -16,7 +16,7 @@ function convertRvector(rvec) {
   return ret;
 }
 
-function ditectDiff(cv, img1array, img2array, conf) {
+function detectDiff(cv, img1array, img2array, conf) {
   const img1Raw = cv.matFromArray(img1array, 24), img1 = new cv.Mat();
   cv.cvtColor(img1Raw, img1, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
 
@@ -30,6 +30,7 @@ function ditectDiff(cv, img1array, img2array, conf) {
     });
   }
   const r = new cv.DiffResult();
+  cv.detectDiff(img1, img2, r, config);
   const result = {
     matches: [],
     strayingRects: [
@@ -37,7 +38,6 @@ function ditectDiff(cv, img1array, img2array, conf) {
       convertRvector(r.strayingRects2),
     ],
   };
-  cv.detectDiff(img1, img2, r, config);
   for (let i = 0; i < r.matches.size(); i++) {
     const m = r.matches.get(i);
     const obj = [{
@@ -84,20 +84,22 @@ function getEmModule() {
   });
 }
 
-const cvNode = require('../build/cv-wasm_node.js');
+const m = require('../build/cv-wasm_node.js');
+const p = new Promise(resolve => {
+  const id = setInterval(() => {
+    if (m.detectDiff) {
+      resolve(m);
+      clearInterval(id);
+      return;
+    } else {
+      console.log('loading...');
+    }
+  }, 10);
+});
 
 module.exports = function (img1, img2, config, cb) {
-  return new Promise((resolve) => {
-    var x;
-    cvNode({ _init_: (m) => {
-      x = m;
-    } });
-    const id = setInterval(() => {
-      if (!x.detectDiff) return;
-      clearInterval(id);
-      const result = ditectDiff(x, img1, img2, config);
-      resolve(result);
-    }, 10);
+  return p.then(m => {
+    return detectDiff(m, img1, img2, config);
   });
 };
 

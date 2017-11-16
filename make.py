@@ -162,7 +162,7 @@ try:
 
     emcc_args += ('-s TOTAL_MEMORY=%d' % (128*1024*1024)).split(' ') # default 128MB.
     emcc_args += '-s ALLOW_MEMORY_GROWTH=1'.split(' ')  # resizable heap
-    emcc_args += '-s EXPORT_NAME="cv" -s MODULARIZE=1'.split(' ')
+    emcc_args += '-s EXPORT_NAME="cv"'.split(' ')
 
     emscripten.Building.make(['make', '-j4'])
 

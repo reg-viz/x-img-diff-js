@@ -29,6 +29,7 @@ function match(img1array, img2array) {
   const config = new cv.DiffConfig();
   config._debug = true;
   const r = new cv.DiffResult();
+  cv.detectDiff(img1, img2, r, config);
   const result = {
     matches: [],
     strayingRects: [
@@ -36,7 +37,6 @@ function match(img1array, img2array) {
       convertRvector(r.strayingRects2),
     ],
   };
-  cv.detectDiff(img1, img2, r, config);
   for (let i = 0; i < r.matches.size(); i++) {
     const m = r.matches.get(i);
     const obj = [{
