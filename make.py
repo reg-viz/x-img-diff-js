@@ -178,7 +178,7 @@ try:
              os.path.join('..', 'modules', 'calib3d', 'include'),
              os.path.join('..', 'modules', 'features2d', 'include'),
              os.path.join('..', 'modules', 'video', 'include'),
-             os.path.join('..', 'modules', 'videio', 'include'),
+             os.path.join('..', 'modules', 'videoio', 'include'),
              os.path.join('..', 'modules', 'objdetect', 'include'),
              os.path.join('..', 'modules', 'imgcodecs', 'include'),
              os.path.join('..', 'modules', 'hal', 'include'),
