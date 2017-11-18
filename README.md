@@ -1,8 +1,7 @@
 # x-img-diff-js
 [![CircleCI](https://circleci.com/gh/reg-viz/x-img-diff-js.svg?style=svg)](https://circleci.com/gh/reg-viz/x-img-diff-js)
 
-
-Image comparison module(Highly experimental).
+JavaScript(Web Assembly) porting project for [Quramy/x-img-diff](https://github.com/Quramy/x-img-diff), which extracts structual information of a bit different 2 images.
 
 ## Demonstration
 See https://reg-viz.github.io/x-img-diff-js/
@@ -50,9 +49,9 @@ main();
 ### Browser
 *T.B.D.*
 
-### API
+## API
 
-#### function `detectDiff`
+### function `detectDiff`
 
 ```ts
 detectDiff(img1: Image, img2: Image, opt?: DetectDiffOptions): Promise<DetectDiffResult>
@@ -61,7 +60,7 @@ detectDiff(img1: Image, img2: Image, opt?: DetectDiffOptions): Promise<DetectDif
 - `img1`, `img2` - *Required* - Input images.
 - `opt` - *Optional* - An object to configure detection.
 
-#### type `Image`
+### type `Image`
 
 ```ts
 type Image = {
@@ -71,10 +70,10 @@ type Image = {
 }
 ```
 
-#### type `DetectDiffOptions`
+### type `DetectDiffOptions`
 A option object. See https://github.com/Quramy/x-img-diff#usage .
 
-#### type `DetectDiffResult`
+### type `DetectDiffResult`
 
 ```ts
 type DetectDiffResult = {
@@ -86,7 +85,7 @@ type DetectDiffResult = {
 - `matces` - An array of each matching region.
 - `strayingRects` - An array of keypoints recatangle. `strayingRects[0]` corresponds to `img1`, `strayingRects[1]` does to `img2`.
 
-### type `MatchingRegions
+### type `MatchingRegions`
 
 ```ts
 type MatchingRegions = {
@@ -111,7 +110,7 @@ const translationVector = {
 };
 ```
 
-#### type `Rect`
+### type `Rect`
 
 ```ts
 type Rect = {
