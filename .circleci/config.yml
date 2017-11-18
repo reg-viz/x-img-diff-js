@@ -39,13 +39,28 @@ jobs:
       - attach_workspace:
           at: ~/repo/build
       - run: ls -la build
-      - run: npm test
+      - restore_cache:
+          keys:
+            - npm-cache-{{ checksum "yarn.lock" }}
+            - npm-cache
+      - run: yarn install
+      - save_cache:
+          key: npm-cache-{{ checksum "yarn.lock" }}
+      - run: yarn test 
 
   deploy:
     docker:
       - image: node:8
 
     steps:
+      - checkout
+      - attach_workspace:
+          at: ~/repo/build
+      - restore_cache:
+          keys:
+            - npm-cache-{{ checksum "yarn.lock" }}
+            - npm-cache
+      - run: yarn install
       - run:
           name: Setup git
           command: |
@@ -70,13 +85,11 @@ workflows:
       - test:
           requires:
             - build
-#     - confirm_patch:
-#         type: approval
-#         filters:
-#             branches:
-#                 only: master
-#         requires:
-#           - test
-#     - deploy:
-#         requires:
-#           - confirm_patch;
+      - confirm_patch:
+          type: approval
+          requires:
+            - test
+      - deploy:
+          requires:
+            - confirm_patch
+
