@@ -6,8 +6,6 @@ body {
   margin: 0;
   padding: 0;
   color: #555;
-  min-width: 1200px;
-  min-height: 800px;
   font-family: 'Lato', sans-serif;
 }
 
@@ -15,16 +13,21 @@ body.loading {
   overflow-y: hidden;
 }
 
+main {
+  box-sizing: border-box;
+  min-height: calc(100vh - 180px);
+}
+
 main, footer {
-  margin: 0 auto;
-  width: 1200px;
+  padding: 0 60px;
 }
 
 footer {
   color: #ddd;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
-  padding: 120px 0;
+  height: 60px;
+  padding: 60px 0;
 }
 
 footer a:hover
@@ -50,6 +53,16 @@ h3 {
   margin: 15px 0;
 }
 
+a:link, a:visited, a:active {
+  color: #4184B6;
+  text-decoration: underline;
+}
+
+a:link:hover {
+  opacity: .7;
+  text-decoration: none;
+}
+
 .input {
   display: flex;
 }
@@ -60,6 +73,10 @@ h3 {
 
 .input > div:not(:first-child) {
   margin-left: 30px;
+}
+
+.input canvas {
+  max-width: calc(50vw - 75px);
 }
 
 .output > div {
@@ -168,5 +185,15 @@ h3 {
   }  20% { 
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  main {
+    width: 1280px;
+    margin: 0 auto;
+  }
+  .input canvas {
+    max-width: calc(640px - 75px);
   }
 }

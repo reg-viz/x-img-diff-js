@@ -85,14 +85,14 @@ function rendarRects(rects, canvasId, style, width = 1) {
 }
 
 function renderResult(result, canvasId1, canvasId2) {
+  rendarRects(result.matches.map(m => m[0].bounding), canvasId1, 'rgb(0, 255, 255)', 2)
+  rendarRects(result.matches.map(m => m[1].bounding), canvasId2, 'rgb(0, 255, 255)', 2)
   result.matches.forEach(m => {
-    rendarRects(m[0].diffMarkers, canvasId1, 'rgb(255, 0, 0)', 2);
-    rendarRects(m[1].diffMarkers, canvasId2, 'rgb(255, 0, 0)', 2);
+    rendarRects(m[0].diffMarkers, canvasId1, 'rgb(255, 0, 0)', 3);
+    rendarRects(m[1].diffMarkers, canvasId2, 'rgb(255, 0, 0)', 3);
   });
-  rendarRects(result.matches.map(m => m[0].bounding), canvasId1, 'rgb(0, 255, 255)')
-  rendarRects(result.matches.map(m => m[1].bounding), canvasId2, 'rgb(0, 255, 255)')
-  rendarRects(result.strayingRects[0], canvasId1, 'rgb(255, 0, 255)', 2)
-  rendarRects(result.strayingRects[1], canvasId2, 'rgb(255, 0, 255)', 2)
+  rendarRects(result.strayingRects[0], canvasId1, 'rgb(255, 0, 255)', 3)
+  rendarRects(result.strayingRects[1], canvasId2, 'rgb(255, 0, 255)', 3)
 }
 
 function startCalc() {
@@ -110,12 +110,9 @@ Promise.all([
     const meta = ev.data;
     switch (meta.type) {
       case 'init':
-        showSpinner('Calculating...');
-        startCalc();
-        document.querySelector('.output').classList.remove('hide');
+        hideSpinner();
         break;
       case 'res_match':
-        hideSpinner();
         hideSpinnerBtn();
         renderResult(ev.data.result, 'img1', 'img2');
       default:

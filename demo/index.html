@@ -9,6 +9,18 @@
 <body class="loading">
   <main>
     <h1>x-img-diff-js demonstration</h1>
+    <section>
+      <p>
+      x-img-diff-js is a JavaScript(Web Assembly) porting project for <a target="_blank" href="https://github.com/Quramy/x-img-diff">x-img-diff</a>,
+      which extracts structual information of a bit different 2 images. Click the following "Calculate" button, then rectangle markers are displayed over the images.
+      </p>
+      Each rectangle stands for:
+      <ul>
+        <li>Cyan: Matching region</li>
+        <li>Red: Different parts in the matching region</li>
+        <li>Purple: Keypoints region which is not include in any matching regions</li>
+      </ul>
+    </section>
     <div class="input">
       <div>
         <header>
@@ -24,18 +36,13 @@
       </div>
     </div>
     <div id="btn">
-      <span class="message">Match</span>
+      <span class="message">Calculate</span>
       <div class="spinner">
         <div class="rect1"></div>
         <div class="rect2"></div>
         <div class="rect3"></div>
         <div class="rect4"></div>
         <div class="rect5"></div>
-      </div>
-    </div>
-    <div class="output hide">
-      <div>
-        <canvas id="output"></canvas>
       </div>
     </div>
   </main>
