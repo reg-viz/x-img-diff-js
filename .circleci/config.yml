@@ -55,18 +55,22 @@ jobs:
 
     steps:
       - checkout
+      - add-ssh-keys:
+          fingerprints:
+            - "e1:46:8b:be:4e:fb:49:44:e2:d0:75:d1:6b:76:43:f8"
       - attach_workspace:
           at: ~/repo/build
-      - restore_cache:
-          keys:
-            - npm-cache-{{ checksum "yarn.lock" }}
-            - npm-cache
-      - run: yarn install
       - run:
           name: Setup git
           command: |
             git config --global user.email "yosuke.kurami@gmail.com"
             git config --global user.name "Quramy"
+      - restore_cache:
+          keys:
+            - npm-cache-{{ checksum "yarn.lock" }}
+            - npm-cache
+      - run: yarn install
+      - run: yarn run deploy
       - run:
           name: Login npm
           command: |
@@ -74,7 +78,6 @@ jobs:
       - run:
           name: Publish
           command: |
-            npm run deploy
             npm publish
 
 
