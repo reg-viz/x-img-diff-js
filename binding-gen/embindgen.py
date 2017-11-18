@@ -788,7 +788,7 @@ class JSWrapperGenerator(object):
 
 
         print(ret)
-        text_file = open("../bindings.cpp", "w")
+        text_file = open("../bindings/bindings.cpp", "w")
         text_file.write(ret)
         text_file.close()
 

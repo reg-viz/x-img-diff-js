@@ -59,6 +59,8 @@ def stage(text):
 
 # Main
 try:
+    if not os.path.exists('build'):
+        os.makedirs('build')
     this_dir = os.getcwd()
     os.chdir('opencv')
     if not os.path.exists('build'):

@@ -29,7 +29,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ////////////////////////////////////////////////////////////////////////////////
-
+#include "hunter.hpp"
 #include "opencv2/core.hpp"
 #include "opencv2/core/ocl.hpp"
 #include "opencv2/flann/flann.hpp"
@@ -158,11 +158,41 @@ EMSCRIPTEN_BINDINGS(Utils) {
     register_vector<cv::Mat>("MatVector");
     register_vector<cv::KeyPoint>("KeyPointVector");
     register_vector<cv::Rect>("RectVector");
+    register_vector<std::vector<cv::Rect>>("RectVectorVector");
     register_vector<cv::Point2f>("Point2fVector");
     register_vector<cv::DMatch>("DMatchVector");
     register_vector<std::vector<cv::DMatch>>("DMatchVectorVector");
     register_vector<std::vector<char>>("CharVectorVector");
+    register_vector<ph::PixelMatchingResult>("PixelMatchingResultVector");
 
+    emscripten::class_<ph::PixelMatchingResult>("PixelMatchingResult")
+        .constructor()
+        .property("isMatched", &ph::PixelMatchingResult::isMatched)
+        .property("center1", &ph::PixelMatchingResult::center1)
+        .property("bounding1", &ph::PixelMatchingResult::bounding1)
+        .property("center2", &ph::PixelMatchingResult::center2)
+        .property("bounding2", &ph::PixelMatchingResult::bounding2)
+        .property("diffMarkers1", &ph::PixelMatchingResult::diffMarkers1)
+        .property("diffMarkers2", &ph::PixelMatchingResult::diffMarkers2)
+        ;
+
+    emscripten::class_<ph::DiffConfig>("DiffConfig")
+        .constructor<>()
+        .property("_debug", &ph::DiffConfig::debug)
+        .property("maxMatchingPoints", &ph::DiffConfig::maxMatchingPoints)
+        .property("connectionDistance", &ph::DiffConfig::connectionDistance)
+        .property("thresholdPixcelNorm", &ph::DiffConfig::thresholdPixelNorm)
+        .property("gridSize", &ph::DiffConfig::gridSize)
+        ;
+
+    emscripten::class_<ph::DiffResult>("DiffResult")
+        .constructor<>()
+        .property("matches", &ph::DiffResult::matches)
+        .property("strayingRects1", &ph::DiffResult::strayingRects1)
+        .property("strayingRects2", &ph::DiffResult::strayingRects2)
+        ;
+
+    function("_detectDiff", select_overload<void(const cv::Mat&, const cv::Mat&, ph::DiffResult&, const ph::DiffConfig&)>(&ph::detectDiff));
     emscripten::class_<cv::TermCriteria>("TermCriteria")
         .constructor<>()
         .constructor<int, int, double>()
