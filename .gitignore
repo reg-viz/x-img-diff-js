@@ -105,4 +105,4 @@ typings/
 
 dist/
 
-.pyc
+*.pyc
