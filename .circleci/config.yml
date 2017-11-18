@@ -64,19 +64,19 @@ jobs:
 
 workflows:
   version: 2
-  build_pipeline:
+  deployment_pipeline:
     jobs:
       - build
       - test:
         requires:
           - build
-      - confirm_patch:
-          type: approval
-          filters:
-            branches:
-              only: master
-          requires:
-            - test
-      - deploy:
-        requires:
-          - confirm_patch;
+#     - confirm_patch:
+#         type: approval
+#         filters:
+#           branches:
+#             only: master
+#         requires:
+#           - test
+#     - deploy:
+#       requires:
+#         - confirm_patch;
