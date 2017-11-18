@@ -70,12 +70,12 @@ jobs:
 
     steps:
       - checkout
-      - add-ssh-keys:
-          fingerprints:
-            - "e1:46:8b:be:4e:fb:49:44:e2:d0:75:d1:6b:76:43:f8"
       - attach_workspace:
           at: ~/repo/build
       - run: ls -la build
+      - add-ssh-keys:
+          fingerprints:
+            - "e1:46:8b:be:4e:fb:49:44:e2:d0:75:d1:6b:76:43:f8"
       - run:
           name: Setup git
           command: |
