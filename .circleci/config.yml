@@ -3,7 +3,6 @@ jobs:
   build:
     docker:
       - image: quramy/opencvjs-emcc:sdk-tag-1.37.21-64bit
-
     working_directory: ~/repo
 
     steps:
@@ -31,7 +30,6 @@ jobs:
   test:
     docker:
       - image: node:8
-
     working_directory: ~/repo
 
     steps:
@@ -46,11 +44,14 @@ jobs:
       - run: yarn install
       - save_cache:
           key: npm-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
       - run: yarn test 
 
   deploy:
     docker:
       - image: node:8
+    working_directory: ~/repo
 
     steps:
       - checkout
