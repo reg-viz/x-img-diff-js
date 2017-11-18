@@ -64,12 +64,12 @@ jobs:
 
 workflows:
   version: 2
-  deployment_pipeline:
+  build_pipeline:
     jobs:
       - build
       - test:
-        requires:
-          - build
+          requires:
+            - build
 #     - confirm_patch:
 #         type: approval
 #         filters:
