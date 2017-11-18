@@ -10,12 +10,20 @@ jobs:
       - run:
           name: get submodules
           command: |
-            git clone --depth=1 -b 3.2.0 https://github.com/opencv/opencv.git
-            git clone --depth=1 https://github.com/Quramy/x-img-diff
+            git submodule init
+            git submodule update
+      - restore_cache:
+          keys:
+            - module-cache-{{ checksum "x-img-diff/CMakeLists.txt" }}-{{ checksum "make.py" }}-{{ checksum "bindings/bindings.cpp" }}-{{ checksum "bindings/post.js" }}-{{ checksum "bindings/pre_node.js" }}
+            - module-cache
       - run:
           name: build modules
           command: |
             python make.py --wasm
+      - save_cache:
+          key: module-cache-{{ checksum "x-img-diff/CMakeLists.txt" }}-{{ checksum "make.py" }}-{{ checksum "bindings/bindings.cpp" }}-{{ checksum "bindings/post.js" }}-{{ checksum "bindings/pre_node.js" }}
+          paths:
+            - build
       - store_artifacts:
           path: build
           destination: wasm
