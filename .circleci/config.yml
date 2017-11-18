@@ -55,6 +55,13 @@ jobs:
           paths:
             - node_modules
       - run: yarn test 
+      - persist_to_workspace:
+          root: build
+          paths:
+            - cv-wasm_browser.js                
+            - cv-wasm_browser.wasm              
+            - cv-wasm_node.js                   
+            - cv-wasm_node.wasm                 
 
   deploy:
     docker:
@@ -68,6 +75,7 @@ jobs:
             - "e1:46:8b:be:4e:fb:49:44:e2:d0:75:d1:6b:76:43:f8"
       - attach_workspace:
           at: ~/repo/build
+      - run: ls -la build
       - run:
           name: Setup git
           command: |
