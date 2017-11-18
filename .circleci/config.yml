@@ -19,7 +19,7 @@ jobs:
       - run:
           name: build modules
           command: |
-            python make.py --wasm
+            bash build.sh
       - save_cache:
           key: module-cache-{{ checksum "x-img-diff/CMakeLists.txt" }}-{{ checksum "make.py" }}-{{ checksum "bindings/bindings.cpp" }}-{{ checksum "bindings/post.js" }}-{{ checksum "bindings/pre_node.js" }}
           paths:
