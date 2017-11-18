@@ -7,41 +7,25 @@ const detectDiff = require('../src');
 
 function decodePng(filename) {
   return new Promise((resolve, reject) => {
-    try {
-      fs.createReadStream(filename).pipe(new PNG())
-        .on("parsed", function() {
-          const { width, height, data } = this;
-          resolve({
-            width,
-            height,
-            data: new Uint8Array(data),
-          });
-        })
-        .on("error", function(err) {
-          reject(err);
-        })
-      ;
-    } catch (e) {
-      reject(e);
-    }
+    fs.readFile(filename, (err, buffer) => {
+      if (err) return reject(err);
+      resolve(PNG.sync.read(buffer));
+    });
   });
 }
 
-function test() {
-  return Promise.all([
+async function test() {
+  const [img1, img2] = await Promise.all([
     decodePng(path.resolve(__dirname, '../demo/img/actual.png')),
     decodePng(path.resolve(__dirname, '../demo/img/expected.png')),
-  ])
-  .then(([img1, img2]) => detectDiff(img1, img2, { }))
-  .then((diffResult) => {
-    assert(diffResult);
-    console.log("diff result:", diffResult);
-    console.log("the number of matching area:", diffResult.matches.length);
-    console.log("img1's macthing area bounding rect:", diffResult.matches[0][0].bounding);
-    console.log("ima2's matching area bounding rect:", diffResult.matches[0][1].bounding);
-    console.log("diff marker rectangulars in img1's matching area", diffResult.matches[0][0].diffMarkers.length);
-  })
-  ;
+  ]);
+  const diffResult = await detectDiff(img1, img2);
+  assert(diffResult);
+  console.log("diff result:", diffResult);
+  console.log("the number of matching area:", diffResult.matches.length);
+  console.log("img1's macthing area bounding rect:", diffResult.matches[0][0].bounding);
+  console.log("ima2's matching area bounding rect:", diffResult.matches[0][1].bounding);
+  console.log("diff marker rectangulars in img1's matching area", diffResult.matches[0][0].diffMarkers.length);
 }
 
 test()

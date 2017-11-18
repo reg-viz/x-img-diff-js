@@ -9,6 +9,7 @@ See https://reg-viz.github.io/x-img-diff-js/
 
 ## Usage
 ### Node.js
+**You need Node.js >= v8.0.0**
 
 ```sh
 npm install x-img-diff-js pngjs
@@ -23,53 +24,105 @@ const detectDiff = require('x-img-diff-js');
 
 function decodePng(filename) {
   return new Promise((resolve, reject) => {
-    try {
-      fs.createReadStream(filename).pipe(new PNG())
-        .on("parsed", function() {
-          const { width, height, data } = this;
-          resolve({
-            width,
-            height,
-            data: new Uint8Array(data),
-          });
-        })
-        .on("error", function(err) {
-          reject(err);
-        })
-      ;
-    } catch (e) {
-      reject(e);
-    }
+    fs.readFile(filename, (err, buffer) => {
+      if (err) return reject(err);
+      resolve(PNG.sync.read(buffer));
+    });
   });
 }
 
-function test() {
-  return Promise.all([
+async function main() {
+  const [img1, img2] = await Promise.all([
     decodePng(path.resolve(__dirname, '../demo/img/actual.png')),
     decodePng(path.resolve(__dirname, '../demo/img/expected.png')),
-  ])
-  .then(([img1, img2]) => detectDiff(img1, img2, { }))
-  .then((diffResult) => {
-    console.log("diff result:", diffResult);
-    console.log("mathied area:", diffResult.matches.length);
-    console.log("img1's matched area bounding rect:", diffResult.matches[0][0].bounding);
-    console.log("ima2's matched area bounding rect:", diffResult.matches[0][1].bounding);
-    console.log("diff marker rectangulars in img1's matched area", diffResult.matches[0][0].diffMarkers.length);
-  })
-  ;
+  ]);
+  const diffResult = await detectDiff(img1, img2);
+  console.log("diff result:", diffResult);
+  console.log("the number of matching area:", diffResult.matches.length);
+  console.log("img1's macthing area bounding rect:", diffResult.matches[0][0].bounding);
+  console.log("ima2's matching area bounding rect:", diffResult.matches[0][1].bounding);
+  console.log("diff marker rectangulars in img1's matching area", diffResult.matches[0][0].diffMarkers.length);
 }
 
-test()
-  .then(() => process.exit(0))
-  .catch(() => process.exit(1));
+main();
 ```
 
 ### Browser
 *T.B.D.*
 
 ### API
-*T.B.D.*
 
+#### function `detectDiff`
+
+```ts
+detectDiff(img1: Image, img2: Image, opt?: DetectDiffOptions): Promise<DetectDiffResult>
+```
+
+- `img1`, `img2` - *Required* - Input images.
+- `opt` - *Optional* - An object to configure detection.
+
+#### type `Image`
+
+```ts
+type Image = {
+  width: number;
+  height: number;
+  data: Uint8Array;
+}
+```
+
+#### type `DetectDiffOptions`
+A option object. See https://github.com/Quramy/x-img-diff#usage .
+
+#### type `DetectDiffResult`
+
+```ts
+type DetectDiffResult = {
+  matces: MatchingRegions[];
+  strayingRects: Rect[][];
+}
+```
+
+- `matces` - An array of each matching region.
+- `strayingRects` - An array of keypoints recatangle. `strayingRects[0]` corresponds to `img1`, `strayingRects[1]` does to `img2`.
+
+### type `MatchingRegions
+
+```ts
+type MatchingRegions = {
+  bounding: Rect;
+  center: Rect;
+  diffMarkers: Rect[];
+}[];
+```
+
+- `bounding` - Bounding rectangle of this region.
+- `center` - Center rectangle of this region.
+- `diffMarkers` - An array of different parts.
+
+A `MatchingRegions` is a couple of objects. The 1st corresponds to `img1`, and 2nd does to `img2`.
+And you can get how far the region moved using `center` property.
+
+```ts
+// m is an item of DetectDiffResult#mathes
+const translationVector = {
+  x: m[1].center.x - m[0].center.x,
+  y: m[1].center.y - m[0].center.y,
+};
+```
+
+#### type `Rect`
+
+```ts
+type Rect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+```
+
+Represents a rectangle.
 
 ## How to build module
 
