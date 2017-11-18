@@ -1,4 +1,7 @@
 # x-img-diff-js
+[![CircleCI](https://circleci.com/gh/reg-viz/x-img-diff-js.svg?style=svg)](https://circleci.com/gh/reg-viz/x-img-diff-js)
+
+
 Image comparison module(Highly experimental).
 
 ## Demonstration
