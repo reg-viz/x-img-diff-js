@@ -2,9 +2,6 @@
   "name": "x-img-diff-js",
   "version": "0.1.3",
   "main": "src/index.js",
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "description": "compare 2 images considering into translation",
   "scripts": {
     "build": "docker-compose run --rm emcc",
