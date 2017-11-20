@@ -111,7 +111,7 @@ jobs:
           command: |
             npm publish
 
-  deploy_patch:
+  deploy_minor:
     docker:
       - image: node:8
     working_directory: ~/repo
