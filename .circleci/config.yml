@@ -70,9 +70,19 @@ jobs:
 
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/repo/build
-      - run: ls -la build
+      - restore_cache:
+          keys:
+            - module-cache-{{ checksum "x-img-diff/CMakeLists.txt" }}-{{ checksum "make.py" }}-{{ checksum "bindings/bindings.cpp" }}-{{ checksum "bindings/post.js" }}-{{ checksum "bindings/pre_node.js" }}
+            - module-cache
+      - run: 
+          name: Check modules
+          command: |
+            ls -la build
+            test -f build/cv-wasm_browser.js
+            test -f build/cv-wasm_browser.wasm
+            test -f build/cv-wasm_node.js
+            test -f build/cv-wasm_node.wasm
+
       - add-ssh-keys:
           fingerprints:
             - "e1:46:8b:be:4e:fb:49:44:e2:d0:75:d1:6b:76:43:f8"
