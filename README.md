@@ -1,5 +1,6 @@
 # x-img-diff-js
 [![CircleCI](https://circleci.com/gh/reg-viz/x-img-diff-js.svg?style=svg)](https://circleci.com/gh/reg-viz/x-img-diff-js)
+[![npm version](https://badge.fury.io/js/x-img-diff-js.svg)](https://badge.fury.io/js/x-img-diff-js)
 
 JavaScript(Web Assembly) porting project for [Quramy/x-img-diff](https://github.com/Quramy/x-img-diff), which extracts structual information of a bit different 2 images.
 
@@ -47,7 +48,7 @@ main();
 ```
 
 ### Browser
-*T.B.D.*
+See [demo derectory](https://github.com/reg-viz/x-img-diff-js/tree/master/demo) in this repository.
 
 ## API
 
