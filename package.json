@@ -1,6 +1,6 @@
 {
   "name": "x-img-diff-js",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "main": "src/index.js",
   "engines": {
     "node": ">=8.0.0"
