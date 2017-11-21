@@ -15,7 +15,6 @@ jobs:
       - restore_cache:
           keys:
             - module-cache-{{ checksum "x-img-diff/CMakeLists.txt" }}-{{ checksum "make.py" }}-{{ checksum "bindings/bindings.cpp" }}-{{ checksum "bindings/post.js" }}-{{ checksum "bindings/pre_node.js" }}
-            - module-cache
       - run:
           name: build modules
           command: |
@@ -78,7 +77,6 @@ jobs:
       - restore_cache:
           keys:
             - module-cache-{{ checksum "x-img-diff/CMakeLists.txt" }}-{{ checksum "make.py" }}-{{ checksum "bindings/bindings.cpp" }}-{{ checksum "bindings/post.js" }}-{{ checksum "bindings/pre_node.js" }}
-            - module-cache
       - run: 
           name: Check modules
           command: |
@@ -131,7 +129,6 @@ jobs:
       - restore_cache:
           keys:
             - module-cache-{{ checksum "x-img-diff/CMakeLists.txt" }}-{{ checksum "make.py" }}-{{ checksum "bindings/bindings.cpp" }}-{{ checksum "bindings/post.js" }}-{{ checksum "bindings/pre_node.js" }}
-            - module-cache
       - run: 
           name: Check modules
           command: |
