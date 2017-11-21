@@ -24,7 +24,7 @@ async function test() {
   console.log("diff result:", diffResult);
   console.log("the number of matching area:", diffResult.matches.length);
   console.log("img1's macthing area bounding rect:", diffResult.matches[0][0].bounding);
-  console.log("ima2's matching area bounding rect:", diffResult.matches[0][1].bounding);
+  console.log("img2's matching area bounding rect:", diffResult.matches[0][1].bounding);
   console.log("diff marker rectangulars in img1's matching area", diffResult.matches[0][0].diffMarkers.length);
 }
 

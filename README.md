@@ -17,7 +17,6 @@ npm install x-img-diff-js pngjs
 
 ```javascript
 const fs = require('fs');
-const path = require('path');
 const PNG = require('pngjs').PNG;
 
 const detectDiff = require('x-img-diff-js');
@@ -33,14 +32,14 @@ function decodePng(filename) {
 
 async function main() {
   const [img1, img2] = await Promise.all([
-    decodePng(path.resolve(__dirname, '../demo/img/actual.png')),
-    decodePng(path.resolve(__dirname, '../demo/img/expected.png')),
+    decodePng('demo/img/actual.png')),
+    decodePng('demo/img/expected.png')),
   ]);
   const diffResult = await detectDiff(img1, img2);
   console.log("diff result:", diffResult);
   console.log("the number of matching area:", diffResult.matches.length);
   console.log("img1's macthing area bounding rect:", diffResult.matches[0][0].bounding);
-  console.log("ima2's matching area bounding rect:", diffResult.matches[0][1].bounding);
+  console.log("img2's matching area bounding rect:", diffResult.matches[0][1].bounding);
   console.log("diff marker rectangulars in img1's matching area", diffResult.matches[0][0].diffMarkers.length);
 }
 
