@@ -1,6 +1,6 @@
 {
   "name": "x-img-diff-js",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "src/index.js",
   "description": "compare 2 images considering into translation",
   "scripts": {
