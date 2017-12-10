@@ -19,11 +19,11 @@ function detectDiff (img1, img2, config, cb) {
 }
 
 detectDiff.getBrowserJsPath = function() {
-  return path.resolve(__dirname, 'build', 'cv-wasm_browser.js');
+  return path.resolve(__dirname, '..', 'build', 'cv-wasm_browser.js');
 };
 
 detectDiff.getBrowserWasmPath = function() {
-  return path.resolve(__dirname, 'build', 'cv-wasm_browser.wasm');
+  return path.resolve(__dirname, '..', 'build', 'cv-wasm_browser.wasm');
 };
 
 module.exports = detectDiff;
