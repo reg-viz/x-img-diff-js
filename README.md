@@ -123,6 +123,22 @@ type Rect = {
 
 Represents a rectangle.
 
+### function `detectDiff.getBrowserJsPath`
+
+```ts
+detectDiff.getBrowserJsPath(): string 
+```
+
+Returns the absolute path of the JavaScript file which should be loaded in Browser env.
+
+### function `detectDiff.getBrowserWasmPath`
+
+```ts
+detectDiff.getBrowserWasmPath(): string 
+```
+
+Returns the absolute path of the Web Assembly(.wasm) file which should be loaded in Browser env.
+
 ## How to build module
 
 1. Clone this repo and change the current directory to it.
