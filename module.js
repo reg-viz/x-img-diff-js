@@ -1,4 +1,4 @@
-const version = 10002;
+const version = 10003;
 
 class ModuleClass {
 
