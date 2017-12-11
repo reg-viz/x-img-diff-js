@@ -1,8 +1,9 @@
 const path = require('path');
 const fs = require('fs');
 
-const m = require('../build/cv-wasm_node.js');
+let m;
 const p = new Promise(resolve => {
+  m = require('../build/cv-wasm_node.js');
   const id = setInterval(() => {
     if (m._detectDiff) {
       resolve(m);
