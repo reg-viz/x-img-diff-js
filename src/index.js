@@ -2,21 +2,23 @@ const path = require('path');
 const fs = require('fs');
 
 let m;
-const p = new Promise(resolve => {
+const p = function () {
+  // Node.js < v8.x can't load Web Assembly,
+  // so we should load this module when the first time detectDiff called.
   m = require('../build/cv-wasm_node.js');
-  const id = setInterval(() => {
-    if (m._detectDiff) {
-      resolve(m);
-      clearInterval(id);
-      return;
-    }
-  }, 10);
-});
-
-function detectDiff (img1, img2, config, cb) {
-  return p.then(m => {
-    return m.detectDiff(m, img1, img2, config);
+  return new Promise(resolve => {
+    const id = setInterval(() => {
+      if (m._detectDiff) {
+        resolve(m);
+        clearInterval(id);
+        return;
+      }
+    }, 10);
   });
+};
+
+function detectDiff(img1, img2, config, cb) {
+  return p().then(m => m.detectDiff(m, img1, img2, config));
 }
 
 detectDiff.getBrowserJsPath = function() {
