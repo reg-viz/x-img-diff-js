@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "description": "compare 2 images considering into translation",
   "scripts": {
-    "build": "docker-compose run --rm emcc",
+    "build": "docker-compose run --rm emcc && npm run build:demo",
     "test": "node test/test_node.js",
     "build:demo": "cp -rf build demo",
     "start": "cd demo; http-server -p 8000",
