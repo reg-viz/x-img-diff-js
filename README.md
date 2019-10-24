@@ -47,7 +47,7 @@ main();
 ```
 
 ### Browser
-See [demo derectory](https://github.com/reg-viz/x-img-diff-js/tree/master/demo) in this repository.
+See [demo directory](https://github.com/reg-viz/x-img-diff-js/tree/master/demo) in this repository.
 
 ## API
 
